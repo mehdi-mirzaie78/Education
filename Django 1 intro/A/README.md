@@ -15,8 +15,7 @@ Todo:
     2. Delete Todo
     3. Update Todo
 
-We have worked with simple models and some forms in the project.
-this project is adopted from www.mongard.ir check the link down below
+We have worked with simple models and some forms in the project. this project is adopted from www.mongard.ir check the link down below
 ```
 ---
 [Link](https://www.mongard.ir/courses/django-beginners/)
