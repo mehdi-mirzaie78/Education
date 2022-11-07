@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<h2 class="px-4 pb-3 text-center">Home</h2>
+	<div class="row">
+		<hr>
+	{% for todo in todos %}
+		<div class="col-4 px-5 py-3 card-item bg-info border text-center">
+			<a href="{% url 'details' todo.id %}" style="text-decoration: none; font-weight:bold">{{ todo.title }}</a>
+		</div>
+	{% endfor %}
+	</div>
+{% endblock %}
