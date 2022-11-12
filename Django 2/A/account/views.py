@@ -19,7 +19,7 @@ class RegisterView(View):
             cd = form.cleaned_data
             User.objects.create_user(username=cd['username'],
                                      email=cd['email'],
-                                     password=cd['password'])
+                                     password=cd['password1'])
 
             messages.success(request, 'You registered successfully', 'success')
             return redirect('home:home')
