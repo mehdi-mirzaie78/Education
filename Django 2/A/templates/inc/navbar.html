@@ -7,10 +7,11 @@
       <a class="nav-link active" href="{% url 'account:user_login' %}">Login</a>
 				</div>
 			{% else %}
+{#				<a class="nav-link active" href="{% url 'account:user_profile' request.user.id %}">Profile</a>#}
       	<a class="nav-link active" href="{% url 'account:user_logout' %}">logout</a>
 				</div>
 				<div class="col-1 d-flex justify-content-end">
-					<a class="btn btn-info" href="#">{{ request.user.username }}</a>
+					<a class="btn btn-info" href="{% url 'account:user_profile' request.user.id %}">{{ request.user.username }}</a>
 				{% endif %}
 		</div>
   </div>
