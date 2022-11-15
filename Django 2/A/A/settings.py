@@ -143,4 +143,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = 'zwxmwgmyiohoambx'
 EMAIL_USE_TLS = True
 # Optional
-DEFAULT_FROM_EMAIL = 'Markdown'
+DEFAULT_FROM_EMAIL = 'Markdown Website'
