@@ -10,6 +10,10 @@ from django.utils.text import slugify
 class HomeView(View):
 
     def get(self, request):
+        # You can use code below, to order posts by date and time of creation of the post
+        # If you want to apply the order only in this view, you should use the code below
+        # Otherwise you should use Meta classes for model ordering
+        # posts = Post.objects.order_by('-created') # - is used for reverse ordering
         posts = Post.objects.all()
         return render(request, 'home/index.html', {'posts': posts})
 
