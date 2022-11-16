@@ -14,4 +14,17 @@
 			{% endif %}
 		</div>
 	</div>
+
+	<hr>
+
+{#	<p>{{ comments.count }} comments</p>#}
+	{% for comment in comments %}
+		<div class="card bg-dark text-white">
+			<p class="card-header">{{ comment.user }} | {{ comment.created|timesince }}</p>
+			<p class="card-body">{{ comment.body }}</p>
+		</div>
+	{% empty %}
+		<p>No comments yet!</p>
+	{% endfor %}
+
 {% endblock %}
