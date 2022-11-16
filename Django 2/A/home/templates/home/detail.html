@@ -27,12 +27,22 @@
 		<p class="alert alert-danger">Only users who logged in can send comment</p>
 	{% endif %}
 
+	<br>
+
 {#	<p>{{ comments.count }} comments</p>#}
 	{% for comment in comments %}
 		<div class="card bg-dark text-white">
 			<p class="card-header">{{ comment.user }} | {{ comment.created|timesince }}</p>
 			<p class="card-body">{{ comment.body }}</p>
+
+		{# replies section #}
+			{% with replies=comment.rcomments.all %}
+				{% for reply in replies %}
+					<p class="card-body bg-primary p-3 m-2">{{ reply.user }}<br>{{ reply.body }}</p>
+				{% endfor %}
+			{% endwith %}
 		</div>
+		<br>
 	{% empty %}
 		<p>No comments yet!</p>
 	{% endfor %}
