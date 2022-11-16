@@ -35,6 +35,16 @@
 			<p class="card-header">{{ comment.user }} | {{ comment.created|timesince }}</p>
 			<p class="card-body">{{ comment.body }}</p>
 
+			{% if request.user.is_authenticated %}
+
+				<form action="{% url 'home:add_reply' post.id comment.id %}" method="post" class="p-2 m-2	">
+					{% csrf_token %}
+					{{ reply_form.as_p }}
+					<input type="submit" value="Send" class="btn btn-warning">
+				</form>
+
+			{% endif %}
+
 		{# replies section #}
 			{% with replies=comment.rcomments.all %}
 				{% for reply in replies %}

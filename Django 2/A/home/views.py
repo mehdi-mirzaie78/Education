@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .forms import PostCreateUpdateForm, CommentCreateForm
+from .forms import PostCreateUpdateForm, CommentCreateForm, CommentReplyForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -22,6 +22,7 @@ class HomeView(View):
 
 class PostDetailView(View):
     class_form = CommentCreateForm
+    class_reply_form = CommentReplyForm
 
     def setup(self, request, *args, **kwargs):
         self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'], slug=kwargs['post_slug'])
@@ -30,7 +31,8 @@ class PostDetailView(View):
     def get(self, request, *args, **kwargs):
         post = self.post_instance
         comments = post.pcomments.filter(is_reply=False)
-        return render(request, 'home/detail.html', {'post': post, 'comments': comments, 'form': self.class_form})
+        context = {'post': post, 'comments': comments, 'form': self.class_form, 'reply_form': self.class_reply_form}
+        return render(request, 'home/detail.html', context=context)
 
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
@@ -101,3 +103,21 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.save()
             messages.success(request, 'You created new post', 'success')
             return redirect('home:post_detail', new_post.id, new_post.slug)
+
+
+class PostAddReplyView(LoginRequiredMixin, View):
+    class_form = CommentReplyForm
+
+    def post(self, request, post_id, comment_id):
+        post = get_object_or_404(Post, id=post_id)
+        comment = get_object_or_404(Comment, id=comment_id)
+        form = self.class_form(request.POST)
+        if form.is_valid():
+            reply_comment = form.save(commit=False)
+            reply_comment.user = request.user
+            reply_comment.post = post
+            reply_comment.reply = comment
+            reply_comment.is_reply = True
+            reply_comment.save()
+            messages.success(request, 'Your reply comment submitted successfully', 'success')
+        return redirect('home:post_detail', post.id, post.slug)
