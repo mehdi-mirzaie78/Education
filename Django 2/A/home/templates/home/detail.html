@@ -17,6 +17,16 @@
 
 	<hr>
 
+	{% if request.user.is_authenticated %}
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Send" class="btn btn-primary">
+		</form>
+	{% else %}
+		<p class="alert alert-danger">Only users who logged in can send comment</p>
+	{% endif %}
+
 {#	<p>{{ comments.count }} comments</p>#}
 	{% for comment in comments %}
 		<div class="card bg-dark text-white">
