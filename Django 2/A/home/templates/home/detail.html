@@ -18,10 +18,11 @@
 	<hr>
 
 	{% if request.user.is_authenticated %}
-		<form action="" method="post">
+		<a href="{% url 'home:post_like' post.id %}" class="{% if can_like %}disabled{% endif %} btn btn-primary col-md-2">Like  {{ post.likes_count }}</a>
+		<form action="" method="post" class="mt-3">
 			{% csrf_token %}
-			{{ form.as_p }}
-			<input type="submit" value="Send" class="btn btn-primary">
+			{{ form }}
+			<input type="submit" value="Comment" class="btn btn-primary">
 		</form>
 	{% else %}
 		<p class="alert alert-danger">Only users who logged in can send comment</p>
@@ -40,15 +41,16 @@
 				<form action="{% url 'home:add_reply' post.id comment.id %}" method="post" class="p-2 m-2	">
 					{% csrf_token %}
 					{{ reply_form.as_p }}
-					<input type="submit" value="Send" class="btn btn-warning">
+					<input type="submit" value="Reply" class="btn btn-warning">
 				</form>
 
 			{% endif %}
 
 		{# replies section #}
+			<p class="text-white card-header bg-secondary my-2 mx-2 rounded">Replies</p>
 			{% with replies=comment.rcomments.all %}
 				{% for reply in replies %}
-					<p class="card-body bg-primary p-3 m-2">{{ reply.user }}<br>{{ reply.body }}</p>
+					<p class="card-body bg-primary p-3 m-2 rounded">{{ reply.user }}<br>{{ reply.body }}</p>
 				{% endfor %}
 			{% endwith %}
 		</div>
