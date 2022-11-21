@@ -3,13 +3,14 @@ from django.views import View
 from .models import Post, Comment, Vote
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .forms import PostCreateUpdateForm, CommentCreateForm, CommentReplyForm
+from .forms import PostCreateUpdateForm, CommentCreateForm, CommentReplyForm, PostSearchForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 
 class HomeView(View):
+    class_form = PostSearchForm
 
     def get(self, request):
         # You can use code below, to order posts by date and time of creation of the post
@@ -17,7 +18,9 @@ class HomeView(View):
         # Otherwise you should use Meta classes for model ordering
         # posts = Post.objects.order_by('-created') # - is used for reverse ordering
         posts = Post.objects.all()
-        return render(request, 'home/index.html', {'posts': posts})
+        if request.GET.get('search'):
+            posts = posts.filter(body__contains=request.GET['search'])
+        return render(request, 'home/index.html', {'posts': posts, 'form': self.class_form})
 
 
 class PostDetailView(View):
