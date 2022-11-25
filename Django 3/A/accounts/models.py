@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
+from datetime import datetime, timedelta
+import pytz
 
 
 class User(AbstractBaseUser):
@@ -38,3 +40,16 @@ class OtpCode(models.Model):
 
     def __str__(self):
         return f'{self.phone_number} - {self.code} - {self.created}'
+
+    def is_not_expired(self):
+        utc = pytz.UTC
+        expire = self.created + timedelta(minutes=32, hours=3)
+        checked_on = datetime.now().replace(tzinfo=utc)
+        expired_on = expire.replace(tzinfo=utc)
+        print(f'{checked_on=}', f'{expired_on=}')
+        if expired_on > checked_on:
+            return True
+        return False
+
+# checked_on=datetime.datetime(2022, 11, 25, 15, 23, 0, 845405, tzinfo=<UTC>)
+# expired_on=datetime.datetime(2022, 11, 25, 11, 54, 35, 758058, tzinfo=<UTC>)
