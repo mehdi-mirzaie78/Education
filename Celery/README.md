@@ -1,7 +1,6 @@
 
 <h1 align=center>Basic Celery</h1>
 
----
 
 ### Calling the function with celery
 
@@ -102,36 +101,38 @@ app = Celery('tasks', backends='rpc://', broker='amqp://localhost')
 ### Config
 
 for configuration we have 3 ways:
-```
-    1- Setting the options one by one which can be used for little configurations
-        app.conf.option = option_value
-        app.conf.task_serializer = 'json'
-```
 
-```
-    2. Using update method of config which can be used for medium configurations
+1. Setting the options one by one which can be used for little configurations
 
-        app = Celery('one')
-        app.conf.update(
-            enable_utc = True,
-            timezone = 'asia/tehran',
-            task_serializer = 'json',   # yaml, pickle
-            result_serializer = 'json',
-            broker_url = 'amqp://localhost',
-            result_backend = 'rpc://'
-        )
-```
+    ```python
+    app.conf.option = option_value
+    app.conf.task_serializer = 'json'
+    ```
 
-```
-    3. Using separate python config file which can be used for large configurations
+2. Using update method of config which can be used for medium configurations
 
-        app.config_from_object('celeryconfig')
-        # you should just write the name of the config file, no extension needed
-```
+    ```python
+    app = Celery('one')
+    app.conf.update(
+        enable_utc = True,
+        timezone = 'asia/tehran',
+        task_serializer = 'json',   # yaml, pickle
+        result_serializer = 'json',
+        broker_url = 'amqp://localhost',
+        result_backend = 'rpc://'
+    )
+    ```
+
+3. Using separate python config file which can be used for large configurations
+
+    ```python
+    app.config_from_object('celeryconfig')
+    # you should just write the name of the config file, no extension needed
+    ```
 
 
 
-#### Some options:
+#### Some extra options:
 
     broker_connection_retry
     broker_connection_max_retries
