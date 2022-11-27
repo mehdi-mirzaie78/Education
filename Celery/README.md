@@ -30,11 +30,11 @@ Open another cmd in the project directory and run:
 
 In python shell you can run these commands
 and, will see how celery is making queues for the tasks:
-
-    >>> from one import add
-    >>> add.delay(8, 9)
-    >>> add.apply_async(args=[5, 9])
-
+```python
+>>> from one import add
+>>> add.delay(8, 9)
+>>> add.apply_async(args=[5, 9])
+```
 Last but not least you can see the details in this page:
 
     localhost:5555
