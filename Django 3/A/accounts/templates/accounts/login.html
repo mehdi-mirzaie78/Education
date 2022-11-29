@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Register Page{% endblock %}
+{% block title %}Login Page{% endblock %}
 
 {% block content %}
 	<form action="" method="post" class="card px-4 py-5 w-50 mx-auto" novalidate>
-		<h3 class="text-center mb-3">Register Form</h3>
+		<h3 class="text-center mb-3">Login Form</h3>
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="Register" class="btn btn-success w-50 mx-auto mt-4">
+		<input type="submit" value="Login" class="btn btn-success w-50 mx-auto mt-4">
 	</form>
 {% endblock %}
