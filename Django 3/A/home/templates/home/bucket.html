@@ -13,14 +13,13 @@
 		</thead>
 		<tbody>
 		{% for obj in objects %}
-		<tr>
-			<th scope="row">{{ forloop.counter }}</th>
-			<td>{{ obj.Key }}</td>
-			<td>{{ obj.Size|filesizeformat }}</td>
-			<td><a href="#">download</a></td>
-			<td><a href="#">delete</a></td>
-
-		</tr>
+			<tr>
+				<th scope="row">{{ forloop.counter }}</th>
+				<td>{{ obj.Key }}</td>
+				<td>{{ obj.Size|filesizeformat }}</td>
+				<td><a href="#">download</a></td>
+				<td><a href="{% url 'home:delete_obj_bucket' obj.Key %}">delete</a></td>
+			</tr>
 		{% endfor %}
 		</tbody>
 	</table>
