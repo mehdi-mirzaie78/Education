@@ -2,7 +2,6 @@ def send_otp_code(phone_number, code):
     pass
 
 
-# TODO: Can you make it async?
 """
 from kavenegar import *
 
