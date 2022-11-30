@@ -3,7 +3,7 @@
 {% block title %}Cart{% endblock %}
 
 {% block content %}
-	<table class="table table-dark table-striped">
+	<table class="text-center table table-dark table-striped">
 		<thead>
 		<tr>
 			<th scope="col">#</th>
@@ -11,8 +11,10 @@
 			<th scope="col">Quantity</th>
 			<th scope="col">Unit Price</th>
 			<th scope="col">Total Price</th>
+			<th scope="col">Remove</th>
 		</tr>
 		</thead>
+
 		<tbody>
 		{% for item in cart %}
 			<tr>
@@ -21,8 +23,17 @@
 				<td>{{ item.quantity }}</td>
 				<td>{{ item.price }}</td>
 				<td>{{ item.total_price }}</td>
+				<td><a href="{% url 'orders:cart_remove' item.product.id %}" class="btn btn-danger p-1">remove</a></td>
 			</tr>
 		{% endfor %}
+
+		<tr class="fw-bold">
+			<td>Total</td>
+			<td colspan="3"></td>
+			<td>{{ cart.get_total_price }}</td>
+			<td></td>
+		</tr>
+
 		</tbody>
 	</table>
 {% endblock %}
