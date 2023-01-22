@@ -1,0 +1,387 @@
+# sudo systemctl status docker
+# sudo systemctl start docker
+# sudo systemctl enable docker
+# sudo docker images
+
+
+# If you want to use docker without sudo command 
+
+    $ sudo groupadd docker
+    $ sudo usermod -aG docker $USER
+
+    # after these commands you should logout from your system & login again then the changes will be applied
+
+# ----------------------------------------------------
+Shecan
+    $ sudo micro /etc/resolv.conf
+
+    add these two to the resolv.conf
+    
+    nameserver 185.51.200.2
+    nameserver 178.22.122.100
+
+# -------------------------------------------
+
+sign up and sign in dockerhub to access the official and verified images
+
+for downloading an image you should go to dockerhub look for that image 
+find official version or verified version and use the command which exists
+in the page
+
+
+dockerization means to change a program the way you could run that in docker
+
+
+
+
+something like: $ docker pull hello-world
+
+it may raise an error like toomanyrequests: You have reached your pull rate limit. I don't remember the error quite well
+
+the solution is simple you should login first:
+    $ docker login
+    username:
+    password:
+
+Enter username and password that you used for signup in dockerhub
+then run the command for pulling the image from dockerhub
+
+if you have that image in your computer docker first checks that to see if you
+have that image or not then it will download it for you so don't worry about that
+
+after all run:
+    $ docker images
+you'll see the image you downloaded is there like this:
+
+
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    feb5d9fea6a5   15 months ago   13.3kB
+
+
+# -------------------- Run image in new container -----------------------
+
+if you want to run the image that you downloaded you can use:
+
+    $ docker run "image_name"
+ex:
+    $ docker run hello-world
+
+Note: if you don't have the image, "docker run" will pull the image
+      from registery then runs it
+
+# -------------------- Show list of containers -----------------------
+
+if you want to see list of containers which are running you can use:
+
+    $ docker ps
+
+else if you want to see list of all containers the ones ran and the ones are still running
+
+    $ docker ps -a
+
+    -a means all
+
+# ----------------------- Delete images and containers ------------------
+
+    
+
+help of docker containers:
+
+    $ docker help container
+
+---
+
+shows list of active containers:
+
+    $ docker container ls
+
+
+shows list of all containers:
+
+    $ docker container ls -a
+
+-----------------------------------
+
+Run image with given name for container:
+
+    $ docker run --name 'container_name' 'image_name' 
+    $ docker run --name mehdi hello-world
+
+-----------------------------------
+
+Note: Each time we run an image with $ docker run image it creates a container and runs it.
+
+Remove a container:
+
+    $ docker rm 'container_name'
+
+
+Remove all stopped containers:
+
+    $ docker container prune
+
+-----------------------------------
+
+Remove an image:
+
+    $ docker rmi 'image_name'
+
+Example:
+
+    $ docker rmi hello-world
+
+
+-----------------------------------
+busybox image is a light linux version and it's about 5 MB
+
+    $ docker run busybox
+
+    It will run and close after run.
+
+
+    $ docker run --rm busybox
+
+    It removes the container after run
+
+
+We can execute a command like this:
+
+    $ docker run busybox ls
+
+    executes ls command
+
+
+bin
+dev
+etc
+home
+lib
+lib64
+proc
+root
+sys
+tmp
+usr
+var
+--------------------------------------
+
+    $ docker run busybox pwd
+    It shows where we are / which is root
+
+--------------------------------------
+Working with busybox image interactive
+
+    $ docker run -it busybox 
+    $ docker run -it --rm busybox
+
+Note: -it contains to options -i which is interactive and t tty. it connencts your terminal to that image.
+      you can execute commands in the busybox shell
+
+--------------------------------------
+
+Run a container in background with -d (detach) or --detach:
+    
+    $ docker run -d 'image_name'
+
+    $ docker run -d redis
+
+Hint: Don't forget to pull redis image
+
+It will return the container id
+-----------------------------------
+
+    $ docker run -d buysbox
+
+It returns the container id and runs then will be finished.
+The reason is there's nothing for busybox to be engaged with.
+
+
+but this works:
+
+    $ docker run -dit busybox
+
+combination of -it and -d: -i interactive -t tty -d detach
+
+-----------------------------------
+
+Create a new container without running it.
+
+    $ docker create 'image_name'
+    $ docker create --name bx busybox
+
+Findout more:
+    The difference between docker run and docker create is
+    docker run will run an image in new container which means
+    it creates a new container then runs it
+    docker create just create the container without running that container
+
+If we run docker ps -a we will see the container with Created STATUS
+
+we also can remove the container as you know. 
+
+    $ docker rm bx
+
+
+Starting a container which is not running:
+
+    $ docker start bx
+
+
+If we have a running container we can stop it:
+    
+    $ docker stop bx
+
+Note: This one takes a little while.
+Because it allows the container to finish running process.
+
+-----------------------------------
+
+We can start a stopped or exited container with restart or start commands.
+
+    $ docker start bx
+    
+    OR 
+
+    $ docker restart bx
+
+As you can tell:
+If the container is running restart command first stop the container then start it again.
+
+-----------------------------------
+
+If you want to stop a container immediately you can use:
+    
+    $ docker kill container
+
+    $ docker kill bx
+
+-----------------------------------
+# pause and unpause
+This command won't completely stop the container. it will pause it for a few moments.
+
+start busybox container:
+    
+    $ docker start bx
+
+pause busybox container:
+
+    $ docker pause bx
+
+unpause buxybox container
+
+    $ docker unpause bx
+
+-----------------------------------
+To get some information about downloaded image you can use:
+
+    $ docker image inspect 'image_name'
+
+    $ docker image inspect python:latest
+
+-----------------------------------
+In docker if you don't specify imagetag it will get image with the tag "latest"
+so far there's not a problem. but, if the image doesn't have a tag "latest"
+what then? In that conditions you need to specify the tag.
+-----------------------------------
+Tag "latest" is not the last version if you want the last version you should use
+edge
+
+ex: $ docker pull alpine:edge
+
+-----------------------------------
+Run python in background:
+
+    $ docker run -dit python
+
+We can use exec command to execute some commands inside python
+
+    $ docker exec 'container_name' 'command'
+    $ docker exec python_container ls
+
+Note: In docker images are layered and almost each image has a base layer
+which is OS. so in the example above we executed linux command inside python image
+and it works fine. which means that each image has some layers.
+
+-----------------------------------
+We can use exec command to connect to a container and execute commands as much as we wish
+One of these commands below is your answer.
+
+    $ docker exec -it 'container_name' bash
+    $ docker exec -it 'container_name' /bin/bash
+    $ docker exec -it 'container_name' sh
+-----------------------------------
+
+If you want to remove a running container you can use -f (force) option:
+
+    $ docker rm -f 'running_container_name'
+
+-----------------------------------
+
+Restart Policy: in what conditions container is allowed to restart itself.
+1. always -> always restarts unless you stop it yourself even when the docker restarts
+2. unless-stopped -> its like "always" but when we restart docker itself, it doesn't restart the container
+3. on-failed -> if the container gets an error restarts
+
+
+    $ docker run -it --restart 'restart_policy' 'container_name'
+    
+    $ docker run -it --restart always busybox
+    $ docker run -it --restart unless-stopped busybox
+    $ docker run -it --restart on-failed busybox
+
+We can see if we exit the container is restarted or not:
+
+    $ docker container inspect 'container_name'
+
+look for restart count you will see the number of restart.
+
+Restart docker:
+
+    $ sudo systemctl restart docker
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
