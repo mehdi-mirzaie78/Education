@@ -1,0 +1,75 @@
+body {
+  margin: 10px;
+}
+
+/* Sudo class Selector */
+article p:first-of-type {
+  font-size: 140%;
+  font-style: italic;
+}
+
+article :last-child {
+  font-weight: bold;
+}
+
+ul li:nth-child(even) {
+  color: deeppink;
+}
+
+a:visited,
+a:link {
+  color: dodgerblue;
+}
+
+a:hover,
+a:focus {
+  color: deeppink;
+}
+/* focus is used when we use tab in webpage to style the selected tab in the html*/
+
+p.paragraph::first-letter {
+  font-weight: bold;
+  font-size: 140%;
+}
+
+p::first-line {
+  background-color: aqua;
+}
+
+::selection {
+  background-color: green;
+}
+
+p::before {
+  content: "...";
+  display: block;
+}
+
+p::after {
+  content: "after";
+  font-weight: bold;
+  font-style: italic;
+}
+/* :: is for sudo element & : is for sudo class */
+/* 
+Sudo elements are used to style a part of an element but
+Sudo class are used to style elements in a particular state
+like hover or visited link
+*/
+
+h1.Heading {
+  color: dodgerblue;
+}
+
+/*
+Specifity is the most important feature for getting the style 
+ID
+class
+element
+Selector specifity (ID, Class, element)
+ex: (1, 0, 0) more specific than (0, 1, 0)  100 > 10
+(0, 1, 0) is more specific than (0, 0, 1)   10 > 1
+between two selectors with the same specifity the one which comes last will be applied 
+!important is another solution for the ones have the same specifity but is bad practice
+
+*/

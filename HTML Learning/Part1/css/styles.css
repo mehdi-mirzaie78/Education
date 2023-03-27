@@ -1,0 +1,61 @@
+/* selector */
+body {
+    margin: 10px;
+}
+
+p {
+    color: orange;
+}
+/* Unique Identifier #products */
+/* #products {
+    text-align: center;
+}
+/* Using class for mutliple use */
+/* .product {
+    color: gold;
+
+} */
+
+/* ------------------------ attribute selector ------------------------ */
+/* ------------------------ attribute selector ------------------------ */
+
+/* a[href*="google"] {
+    color:gold;
+} */
+/* starts with google */
+/* a[href^="google"] {
+    color:gold;
+} */
+/* Ends with google */
+/* a[href$="google"] {
+    color:gold;
+} */
+
+
+/* combination */
+
+a[href^="https"][href$=".com"] {
+    color: gold;
+    font-weight: bold;
+}
+
+/* Only the first p in #products id */
+/* #products > p {
+    color: black;
+}  */
+
+
+/* Selecting Siblings only the first one */
+/* #products + p {
+    color: red;
+} */
+
+/* Selecting Siblings all of the elements which come after #products */
+#products ~ p {
+    color: red;
+}
+
+
+
+/* Basic Selector is better use id and classes for styling htmls */
+/* Document Object Model 'DOM' */

@@ -1,0 +1,48 @@
+body {
+  margin: 10px;
+}
+/* width: 400px;
+  height: 400px; */
+/* background-color: rgba(14, 216, 172, 0.6); */
+/* background: linear-gradient(45deg, dodgerblue 30%, rgb(255, 42, 0)); */
+/* background: linear-gradient(45deg, dodgerblue, gold, rgb(255, 42, 0)); */
+/* background: radial-gradient(circle at top left, white, yellow); */
+.box {
+  margin: auto;
+  width: 200px;
+  height: 200px;
+  background: rgba(253, 29, 29, 1);
+  background: linear-gradient(
+    40deg,
+    rgba(131, 58, 180, 0.8) 0%,
+    rgba(253, 29, 29, 0.8) 71%,
+    rgba(252, 176, 69, 0.8) 100%
+  );
+  border: 10px dashed royalblue;
+  border-top: 20px solid royalblue;
+  /* border-width: 10px 20px 10px 20px; top right bottom left or simply "trbl" */
+  /* border-width: 10px 20px; top&bottom | right&left */
+  border-width: 2px; /* for all sides */
+  /* border-style: solid ; */
+  /* border-color: red; */
+  /* border-left-color: blue; */
+  /* border-radius: 50%; */ /* rounded corners */
+  /* box-shadow: 10px 10px 10px grey; */
+  /* box-shadow: 0 0 30px grey; */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+h3 {
+  color: white;
+  font-style: italic;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/*
+We have two rgb functions for colorize
+rgb() -> red green blue
+rgba() -> red green blue alpha
+the value for alpha is between 0 & 1 which contorls the transparency
+
+*/

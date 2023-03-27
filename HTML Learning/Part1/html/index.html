@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Section</title>
+    <!-- We need to make sure our styles are the same in each browser so we use a normalizer.css -->
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <!-- This normalizes the html file -->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <!-- This overwrite the styles -->
+    <style>
+      p.first {
+        font-weight: bold;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="first">Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum dolor sit amet.</p>
+    <hr />
+    <section id="products">
+      <p class="product">Lorem ipsum dolor sit amet.</p>
+      <article>
+        <p class="product">Lorem ipsum dolor sit amet.</p>
+      </article>
+
+      <a href="https://google.com" target="_blank">Google</a>
+    </section>
+    <p class="product">Lorem ipsum dolor sit amet.</p>
+    <p class="product">Lorem ipsum dolor sit amet.</p>
+    <p class="product">Lorem ipsum dolor sit amet.</p>
+  </body>
+</html>
