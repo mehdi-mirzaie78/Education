@@ -1,0 +1,51 @@
+p {
+  padding: 0;
+  margin: 20px; /* margin collapsed by default*/
+}
+
+/* 
+Margin Collapsing
+If we have two element next to each other their margin collapsed into single margin
+*/
+
+/* 
+Sizing Elements by default the box-sizing is content-box but we can change it to border-box
+what is the difference?
+well when we set the box-sizing to border-box the padding and border doesn't change the height and width
+but in content-box padding and border change the width and height
+
+*/
+.box1 {
+  margin: 10px 20px;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: gold;
+  padding: 20px;
+  border: 10px solid orange;
+  /* box-sizing: content-box; */
+  box-sizing: border-box;
+}
+.box2 {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: gold;
+  padding: 20px;
+  border: 10px solid orange;
+  /* box-sizing: content-box; */
+}
+
+.box1 p,
+.box2 p {
+  text-align: center;
+}
+
+/* Universal Selector: Selects all of the elements */
+/* *,
+*::before, 
+*::after {
+  box-sizing: border-box;
+} */
+
+/* Width and height only will apply on block or inline block elements */

@@ -1,0 +1,14 @@
+.box {
+  border: 3px solid gold;
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  /* overflow: visible | hidden | scroll | auto */
+  overflow: hidden auto; /* this means that the overflow can be scrolled vertically */
+  /* overflow-x: hidden;
+  overflow-y: visible; */
+}
+
+p {
+  margin: 0;
+}
