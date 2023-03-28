@@ -1,0 +1,32 @@
+html {
+  /* 62.5% of 16px which is 10px*/
+  font-size: 62.5%;
+}
+body {
+  margin: 0;
+}
+
+/* .box {
+  width: 50vw;
+  height: 100vh;
+  background: linear-gradient(45deg, yellow, orange 45%, red);
+  border-top: 3px solid dodgerblue;
+} */
+.box {
+  /* 10 x font size of the root element which is 16px by default*/
+  /* width: 10em; 10 x font size of the parent element which you need to trace the inheritance hierarchy */
+  width: 15rem; /* based on root */
+
+  height: 50vh;
+  background: linear-gradient(45deg, yellow, orange 45%, red);
+  border-top: 3px solid dodgerblue;
+}
+
+/* The benefit of rem unit is if the font-size increased or decreased by user the box and othter stuff will change accordingly*/
+p {
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  margin: 10px;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
