@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /Django 3/A/aws
+
+/.vscode/
+HTML Learning/Part2/.vscode/settings.json
