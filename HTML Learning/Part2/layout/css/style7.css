@@ -1,0 +1,26 @@
+.tweet {
+  border: 3px solid rgba(173, 216, 230, 0.915);
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.avatar {
+  width: 5rem;
+  height: 5rem;
+  background-color: gold;
+  float: left;
+  margin-right: 0.5rem;
+}
+
+.clear {
+  /* clear: left; */
+  clear: both;
+}
+/* 
+float is hard to work with we have to deal with parent collapsing.
+You shouldn't use float we used float in the past when there were no flexbox or grid
+flexbox is much easier */
