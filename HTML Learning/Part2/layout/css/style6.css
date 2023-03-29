@@ -1,0 +1,48 @@
+body {
+  height: 200vh;
+}
+.boxes {
+  border: 3px solid lightgrey;
+  position: relative;
+}
+
+.box {
+  width: 5rem;
+  height: 5rem;
+}
+
+.box-one {
+  background-color: gold;
+}
+
+.box-two {
+  background-color: tomato;
+  /* -------------- relative -------------- */
+  /* position: relative; */
+  /* left: 4rem; */
+  /* bottom: 4rem; */
+  /* z-index: -1; */
+
+  /* -------------- absolute -------------- */
+  /* It's like this div is on another layer */
+  /* position: absolute; */
+  /* right: 0; */
+  /* bottom: 0; */
+
+  /* -------------- fixed -------------- */
+  position: fixed;
+  top: 0;
+  left: 2rem;
+  right: 2rem;
+  width: auto;
+  /*
+  position =>
+    Relative: relative to the element's normal position
+    Absolute: relative to the parent
+    Fixed: relative to the the viewport
+  */
+}
+
+.box-three {
+  background-color: dodgerblue;
+}
