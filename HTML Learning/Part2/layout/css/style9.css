@@ -1,0 +1,67 @@
+.container {
+  display: grid;
+  /* grid-template-rows: repeat(3, 100px); */
+  /* grid-template-columns: repeat(2, 100px); */
+
+  grid-template-rows: 100px auto 100px;
+  grid-template-columns: 30fr 70fr;
+
+  /* fr means fraction of available space */
+  /* grid-template: repeat(3, 100px) / repeat(2, 100px); */
+  /* justify-items: center; */
+  /* align-items: center; */
+  /* justify-items for aligning items horizontally
+  align-items for aligning items vertically */
+
+  /* justify-items: stretch; */
+  /* align-items: stretch; */
+  /* By default justify-items and align-items are stretch */
+
+  /* justify-content: center; */
+  /* align-content: center; */
+  /* To align grid layout we use justify-content & align-content */
+
+  /* row-gap: 10px; */
+  /* column-gap: 10px; */
+
+  /* Short hand */
+  gap: 10px;
+
+  /* grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer"; */
+
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    ".       footer";
+  /* we can use . for an empty cell */
+
+  border: 3px solid lightblue;
+  /* 3 x 2 */
+  height: 100vh;
+}
+
+.box {
+  /* width: 5rem; */
+  /* height: 5rem; */
+  background: gold;
+}
+
+.box-one {
+  /* grid-column: 1 / -1; */
+  /* grid-column: 1 / span 2; */
+  /* grid-row: 2 / 4; */
+  /* grid-row: 2 / span 2; */
+
+  /* start / end */
+  /* row / column */
+  /* grid-area: 1 / 1 / 1 / 3; */
+
+  grid-area: header; /* this is used to place box one in header area which contains the first row of the grid */
+}
+
+.box-four {
+  grid-area: footer;
+}
