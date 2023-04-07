@@ -1,0 +1,45 @@
+body p:first-child {
+  display: none;
+  /*visibility: hidden;*/
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.box {
+  padding: 1rem;
+  background: gold;
+}
+
+.box:nth-of-type(2) {
+  background: dodgerblue;
+}
+
+
+@media screen and (min-width: 600px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .box {
+    background: white;
+  }
+}
+
+/* Styles for Printers when you try to print the page */
+@media print {
+  body {
+    font-size: 12pt;
+  }
+
+  .box {
+    padding: 0.5cm;
+  }
+}
