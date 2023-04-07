@@ -129,5 +129,6 @@ dmypy.json
 .pyre/
 /Django 3/A/aws
 
-/.vscode/
+*.vscode/
 HTML Learning/Part2/.vscode/settings.json
+*.idea/
