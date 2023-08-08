@@ -1,11 +1,14 @@
 """
 SOLID Principles
 1. Single Responsiblity -> Separted Order from Payment
-2. Open/Closed
+2. Open/Closed -> Designed an Abstract class for payment Open for extending and closed for modification
 3. Liskov Substitution
 4. Interface Segregation
 5. Dependancy Inversion
 """
+
+from abc import ABC, abstractmethod
+
 class Order:
     items = []
     quantities = []
@@ -24,14 +27,26 @@ class Order:
         return total
 
 
-class PaymentProcessor:
-    def pay_credit(self, order, security_code):
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(self, order, security_code):
+        raise NotImplementedError
+
+class CreditPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
         print("Processing credit payment type")
         print(f"Verifying security code: {security_code}")
         order.status = "paid"
-        
-    def pay_debit(self, order, security_code):
+
+class DebitPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
         print("Processing debit payment type")
+        print(f"Verifying security code: {security_code}")
+        order.status = "paid"
+
+class PaypalPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
+        print("Processing paypal payment type")
         print(f"Verifying security code: {security_code}")
         order.status = "paid"
         
@@ -42,8 +57,8 @@ order.add_item("SSD", 1, 150)
 order.add_item("USB cable", 2 , 5)
 
 print(order.total_price())
-payment_processor = PaymentProcessor()
-payment_processor.pay_debit(order, "0372846")
+payment_processor = PaypalPaymentProcessor()
+payment_processor.pay(order, "0372846")
 
 
 
