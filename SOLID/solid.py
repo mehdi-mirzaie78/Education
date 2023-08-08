@@ -1,8 +1,15 @@
 """
 SOLID Principles
-1. Single Responsiblity -> Separted Order from Payment
-2. Open/Closed -> Designed an Abstract class for payment Open for extending and closed for modification
+1. Single Responsiblity
+Separted Order from Payment
+
+2. Open/Closed
+Designed an Abstract class for payment Open for extending and closed for modification
+
 3. Liskov Substitution
+We needed to have email in PaypalPaymentProcessor
+so we needed to change the abstract class prevent violation Liskov Substitution
+
 4. Interface Segregation
 5. Dependancy Inversion
 """
@@ -29,25 +36,31 @@ class Order:
 
 class PaymentProcessor(ABC):
     @abstractmethod
-    def pay(self, order, security_code):
+    def pay(self, order):
         raise NotImplementedError
 
 class CreditPaymentProcessor(PaymentProcessor):
-    def pay(self, order, security_code):
+    def __init__(self, security_code) -> None:
+        self.security_code = security_code
+    def pay(self, order):
         print("Processing credit payment type")
-        print(f"Verifying security code: {security_code}")
+        print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
 class DebitPaymentProcessor(PaymentProcessor):
-    def pay(self, order, security_code):
+    def __init__(self, security_code) -> None:
+        self.security_code = security_code
+    def pay(self, order):
         print("Processing debit payment type")
-        print(f"Verifying security code: {security_code}")
+        print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
 class PaypalPaymentProcessor(PaymentProcessor):
-    def pay(self, order, security_code):
+    def __init__(self, email) -> None:
+        self.email = email
+    def pay(self, order):
         print("Processing paypal payment type")
-        print(f"Verifying security code: {security_code}")
+        print(f"Verifying email: {self.email}")
         order.status = "paid"
         
         
@@ -57,8 +70,8 @@ order.add_item("SSD", 1, 150)
 order.add_item("USB cable", 2 , 5)
 
 print(order.total_price())
-payment_processor = PaypalPaymentProcessor()
-payment_processor.pay(order, "0372846")
+payment_processor = PaypalPaymentProcessor("markdownpro@gmail.com")
+payment_processor.pay(order)
 
 
 
