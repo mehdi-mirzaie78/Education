@@ -11,6 +11,7 @@ We needed to have email in PaypalPaymentProcessor
 so we needed to change the abstract class prevent violation Liskov Substitution
 
 4. Interface Segregation
+
 5. Dependancy Inversion
 """
 
@@ -34,12 +35,17 @@ class Order:
         return total
 
 
-class PaymentProcessor(ABC):
+class AbstractPaymentProcessor(ABC):
     @abstractmethod
     def pay(self, order):
         raise NotImplementedError
+    
+class AbstractAuthPaymentProcessor(AbstractPaymentProcessor):
+    @abstractmethod
+    def auth_sms(self, code):
+        raise NotImplementedError
 
-class CreditPaymentProcessor(PaymentProcessor):
+class CreditPaymentProcessor(AbstractPaymentProcessor):
     def __init__(self, security_code) -> None:
         self.security_code = security_code
     def pay(self, order):
@@ -47,17 +53,26 @@ class CreditPaymentProcessor(PaymentProcessor):
         print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
-class DebitPaymentProcessor(PaymentProcessor):
+class DebitPaymentProcessor(AbstractAuthPaymentProcessor):
     def __init__(self, security_code) -> None:
         self.security_code = security_code
+    
+    def auth_sms(self, code):
+        print(f"Verifying SMS {code}")
+        self.verified = True
+
     def pay(self, order):
         print("Processing debit payment type")
         print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
-class PaypalPaymentProcessor(PaymentProcessor):
+class PaypalPaymentProcessor(AbstractAuthPaymentProcessor):
     def __init__(self, email) -> None:
         self.email = email
+    
+    def auth_sms(self, code):
+        print(f"Verifying SMS {code}")
+        self.verified = True
     def pay(self, order):
         print("Processing paypal payment type")
         print(f"Verifying email: {self.email}")
