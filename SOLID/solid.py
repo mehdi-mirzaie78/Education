@@ -35,7 +35,12 @@ class Order:
         return total
 
 
-class SMSAuth:
+class Authorizer(ABC):
+    @abstractmethod
+    def is_authorized(self):
+        raise NotImplementedError
+
+class SMSAuth(Authorizer):
     authorized = False
     
     def verify_code(self, code):
@@ -43,7 +48,16 @@ class SMSAuth:
         self.authorized = True 
     def is_authorized(self):
         return self.authorized
+
+class NotRobot(Authorizer):
+    authorized = False
     
+    def not_robot(self):
+        print("Are you a Robot? Naaa...")
+        self.authorized = True
+        
+    def is_authorized(self):
+        return self.authorized
 class AbstractPaymentProcessor(ABC):
     @abstractmethod
     def pay(self, order):
@@ -59,7 +73,7 @@ class CreditPaymentProcessor(AbstractPaymentProcessor):
         order.status = "paid"
 
 class DebitPaymentProcessor(AbstractPaymentProcessor):
-    def __init__(self, security_code, authorizer: SMSAuth) -> None:
+    def __init__(self, security_code, authorizer: Authorizer) -> None:
         self.security_code = security_code
         self.authorizer = authorizer
 
@@ -71,7 +85,7 @@ class DebitPaymentProcessor(AbstractPaymentProcessor):
         order.status = "paid"
 
 class PaypalPaymentProcessor(AbstractPaymentProcessor):
-    def __init__(self, email, authorizer) -> None:
+    def __init__(self, email, authorizer: Authorizer) -> None:
         self.email = email
         self.authorizer = authorizer
     def pay(self, order):
@@ -88,9 +102,9 @@ order.add_item("SSD", 1, 150)
 order.add_item("USB cable", 2 , 5)
 
 print(order.total_price())
-authorizer = SMSAuth()
+authorizer = NotRobot()
 payment_processor = PaypalPaymentProcessor("markdownpro@gmail.com", authorizer)
-authorizer.verify_code("0372342")
+authorizer.not_robot()
 payment_processor.pay(order)
 
 
