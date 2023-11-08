@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    networks:
+      - service1_main
+    command: python test.py
+    volumes:
+      - ./test.py:/src/test.py
+    ports:
+      - 8000:8000
+networks:
+  service1_main:
+    external: true
+
