@@ -1,18 +1,5 @@
 #!/bin/bash
 
-
-while getopts u:p:o:w: flag
-do
-    case "${flag}" in
-        u) config_account=${OPTARG};;
-        p) config_password=${OPTARG};;
-        o) config_port=${OPTARG};;
-        w) config_webBasePath=${OPTARG};;
-
-    esac
-done
-
-
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -64,6 +51,10 @@ elif [[ "${release}" == "armbian" ]]; then
     echo "Your OS is Armbian"
 elif [[ "${release}" == "opensuse-tumbleweed" ]]; then
     echo "Your OS is OpenSUSE Tumbleweed"
+elif [[ "${release}" == "openEuler" ]]; then
+    if [[ ${os_version} -lt 2203 ]]; then
+        echo -e "${red} Please use OpenEuler 22.03 or higher ${plain}\n" && exit 1
+    fi
 elif [[ "${release}" == "centos" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
         echo -e "${red} Please use CentOS 8 or higher ${plain}\n" && exit 1
@@ -92,7 +83,7 @@ elif [[ "${release}" == "rocky" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
         echo -e "${red} Please use Rocky Linux 8 or higher ${plain}\n" && exit 1
     fi
-elif [[ "${release}" == "oracle" ]]; then
+elif [[ "${release}" == "ol" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
         echo -e "${red} Please use Oracle Linux 8 or higher ${plain}\n" && exit 1
     fi
@@ -102,6 +93,7 @@ else
     echo "- Ubuntu 20.04+"
     echo "- Debian 11+"
     echo "- CentOS 8+"
+    echo "- OpenEuler 22.03+"
     echo "- Fedora 36+"
     echo "- Arch Linux"
     echo "- Parch Linux"
@@ -120,7 +112,7 @@ install_base() {
     ubuntu | debian | armbian)
         apt-get update && apt-get install -y -q wget curl tar tzdata
         ;;
-    centos | almalinux | rocky | oracle)
+    centos | almalinux | rocky | ol)
         yum -y update && yum install -y -q wget curl tar tzdata
         ;;
     fedora | amzn)
@@ -145,31 +137,68 @@ gen_random_string() {
 }
 
 config_after_install() {
+    echo -e "${yellow}Install/update finished! For security, it's recommended to modify panel settings ${plain}"
+    read -p "Would you like to customize the panel settings? (If not, random settings will be applied) [y/n]: " config_confirm
 
 
+    if [[ "${config_confirm}" == "y" || "${config_confirm}" == "Y" ]]; then
 
+        read -p "Please set up your username: " config_account
+        echo -e "${yellow}Your username will be: ${config_account}${plain}"
 
-    echo -e "${yellow}Your username will be: ${config_account}${plain}"
+        read -p "Please set up your password: " config_password
+        echo -e "${yellow}Your password will be: ${config_password}${plain}"
 
+        read -p "Please set up the panel port: " config_port
+        echo -e "${yellow}Your panel port is: ${config_port}${plain}"
 
-    echo -e "${yellow}Your password will be: ${config_password}${plain}"
+        read -p "Please set up web base path: " config_webBasePath
+        echo -e "${yellow}Your web base path is: ${config_webBasePath}${plain}"
 
+        echo -e "${yellow}Initializing, please wait...${plain}"
 
-    echo -e "${yellow}Your panel port is: ${config_port}${plain}"
+        /usr/local/x-ui/x-ui setting -username "${config_account}" -password "${config_password}" -port "${config_port}" -webBasePath "${config_webBasePath}"
+        echo -e "${yellow}Settings applied successfully!${plain}"
 
-    echo -e "${yellow}Your web base path is: ${config_webBasePath}${plain}"
+        echo -e "###############################################"
+        echo -e "${green}Username: ${config_account}${plain}"
+        echo -e "${green}Password: ${config_password}${plain}"
+        echo -e "${green}Port: ${config_port}${plain}"
+        echo -e "${green}WebBasePath: ${config_webBasePath}${plain}"
+        echo -e "###############################################"
 
-    echo -e "${yellow}Initializing, please wait...${plain}"
+    else
 
-    /usr/local/x-ui/x-ui setting -username "${config_account}" -password "${config_password}" -port "${config_port}" -webBasePath "${config_webBasePath}"
-    echo -e "${yellow}Settings applied successfully!${plain}"
+        echo -e "${red}Cancel...${plain}"
 
-    echo -e "###############################################"
-    echo -e "${green}Username: ${config_account}${plain}"
-    echo -e "${green}Password: ${config_password}${plain}"
-    echo -e "${green}Port: ${config_port}${plain}"
-    echo -e "${green}WebBasePath: ${config_webBasePath}${plain}"
-    echo -e "###############################################"
+        if [[ ! -f "/etc/x-ui/x-ui.db" ]]; then
+
+            local usernameTemp=$(gen_random_string 10)
+            local passwordTemp=$(gen_random_string 10)
+            local portTemp=$(shuf -i 1024-62000 -n 1)
+
+            /usr/local/x-ui/x-ui setting -username "${usernameTemp}" -password "${passwordTemp}" -port "${portTemp}" -webBasePath "${config_webBasePath}"
+            echo -e "This is a fresh installation, generating random login info for security concerns:"
+            echo -e "###############################################"
+            echo -e "${green}Username: ${usernameTemp}${plain}"
+            echo -e "${green}Password: ${passwordTemp}${plain}"
+            echo -e "${green}Port: ${portTemp}${plain}"
+            echo -e "${green}WebBasePath: ${config_webBasePath}${plain}"
+            echo -e "###############################################"
+            echo -e "${yellow}If you forgot your login info, you can type 'x-ui settings' to check after installation${plain}"
+        else
+            echo -e "${yellow}This is your upgrade, keeping old settings. If you forgot your login info, you can type 'x-ui settings' to check${plain}"
+
+            local existing_webBasePath=$(/usr/local/x-ui/x-ui setting -show true | grep -Eo 'webBasePath: .+' | awk '{print $2}')
+
+            if [[ ${#existing_webBasePath} -lt 4 ]]; then
+                echo -e "${yellow}WebBasePath is empty, generating a random one...${plain}"
+
+                /usr/local/x-ui/x-ui setting -webBasePath "${config_webBasePath}"
+                echo -e "${green}New webBasePath: ${config_webBasePath}${plain}"
+            fi
+        fi
+    fi
 
     /usr/local/x-ui/x-ui migrate
 }
@@ -258,4 +287,4 @@ install_x-ui() {
 
 echo -e "${green}Running...${plain}"
 install_base
-install_x-ui
+install_x-ui $1
